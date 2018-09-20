@@ -2,7 +2,9 @@ require 'test_helper'
 
 class UrlsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    # @url = urls(:one)
+    url = Faker::Internet.url
+    UrlValidator.stubs(:validate).with(url).returns(true)
+    @url = FactoryBot.create(:url, long_url: url)
   end
 
   test "should get index" do
@@ -17,7 +19,9 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create url" do
     assert_difference('Url.count') do
-      post urls_url, params: { url: {  } }
+      url = Faker::Internet.url
+      UrlValidator.stubs(:validate).with(url).returns(true)
+      post urls_url, params: { url: { long_url: url } }
     end
 
     assert_redirected_to url_url(Url.last)
@@ -34,7 +38,7 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update url" do
-    patch url_url(@url), params: { url: {  } }
+    patch url_url(@url), params: { url: { active: false } }
     assert_redirected_to url_url(@url)
   end
 
