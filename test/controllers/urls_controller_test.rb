@@ -62,9 +62,17 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'navigate should render a 404 if url cannot be found' do
+  test 'navigate should render a 404 if url never existed' do
     fake_slug = "sadfasdgasdf"
     get "/#{fake_slug}"
+    assert_response :missing
+  end
+
+  test 'navigate should render a 404 if the url was disabled' do
+    url = Faker::Internet.url
+    UrlValidator.stubs(:validate).with(url).returns(true)
+    disabled_url = FactoryBot.create(:url, long_url: url, active: false)
+    get "/#{disabled_url.user_slug}"
     assert_response :missing
   end
 end
