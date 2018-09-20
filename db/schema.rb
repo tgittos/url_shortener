@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_20_131302) do
+ActiveRecord::Schema.define(version: 2018_09_20_213243) do
 
   create_table "urls", force: :cascade do |t|
-    t.string "user_slug"
     t.string "admin_slug"
     t.string "long_url"
     t.integer "num_clicks", default: 0
@@ -21,7 +20,6 @@ ActiveRecord::Schema.define(version: 2018_09_20_131302) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true
     t.index ["admin_slug"], name: "index_urls_on_admin_slug"
-    t.index ["user_slug"], name: "index_urls_on_user_slug"
   end
 
 end

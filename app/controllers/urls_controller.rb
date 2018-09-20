@@ -3,7 +3,7 @@ class UrlsController < ApplicationController
 
   def navigate
     slug = params[:slug]
-    url = Url.active.find_by_user_slug(slug)
+    url = Url.active.find_by_slug(slug)
     if url
       url.num_clicks += 1
       url.save

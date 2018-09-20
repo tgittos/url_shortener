@@ -51,13 +51,13 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'navigate should redirect to the long url' do
-    get "/#{@url.user_slug}"
+    get "/#{@url.slug}"
     assert_redirected_to @url.long_url
   end
 
   test 'navigate should increment the num_clicks for a url' do
     assert_difference('@url.num_clicks', 1) do
-      get "/#{@url.user_slug}"
+      get "/#{@url.slug}"
       @url.reload
     end
   end
@@ -72,7 +72,7 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
     url = Faker::Internet.url
     UrlValidator.stubs(:validate).with(url).returns(true)
     disabled_url = FactoryBot.create(:url, long_url: url, active: false)
-    get "/#{disabled_url.user_slug}"
+    get "/#{disabled_url.slug}"
     assert_response :missing
   end
 
@@ -81,7 +81,7 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
     UrlValidator.stubs(:validate).with(url).returns(true)
     disabled_url = FactoryBot.create(:url, long_url: url, active: false)
     assert_no_difference('disabled_url.num_clicks') do
-      get "/#{disabled_url.user_slug}"
+      get "/#{disabled_url.slug}"
     end
   end
 end
