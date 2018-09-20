@@ -49,4 +49,22 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to urls_url
   end
+
+  test 'navigate should redirect to the long url' do
+    get "/#{@url.user_slug}"
+    assert_redirected_to @url.long_url
+  end
+
+  test 'navigate should increment the num_clicks for a url' do
+    assert_difference('@url.num_clicks', 1) do
+      get "/#{@url.user_slug}"
+      @url.reload
+    end
+  end
+
+  test 'navigate should render a 404 if url cannot be found' do
+    fake_slug = "sadfasdgasdf"
+    get "/#{fake_slug}"
+    assert_response :missing
+  end
 end

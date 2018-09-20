@@ -1,6 +1,18 @@
 class UrlsController < ApplicationController
   before_action :set_url, only: [:show, :edit, :update, :destroy]
 
+  def navigate
+    slug = params[:slug]
+    url = Url.active.find_by_user_slug(slug)
+    if url
+      url.num_clicks += 1
+      url.save
+      redirect_to url.long_url
+    else
+      head 404
+    end
+  end
+
   # GET /urls
   # GET /urls.json
   def index

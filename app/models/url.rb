@@ -5,6 +5,8 @@ class Url < ApplicationRecord
     validate :slugs_cannot_match
     validate :long_url_must_be_valid
 
+    scope :active, ->() { where(active: true) }
+
     after_initialize do |url|
         url.admin_slug ||= RandomString.generate
         url.user_slug ||= RandomString.generate
