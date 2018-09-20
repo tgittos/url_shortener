@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UrlsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @url = urls(:one)
+    # @url = urls(:one)
   end
 
   test "should get index" do
