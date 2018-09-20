@@ -75,4 +75,13 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
     get "/#{disabled_url.user_slug}"
     assert_response :missing
   end
+
+  test "navigate shouldnt increment the num_clicks for a disabled url" do
+    url = Faker::Internet.url
+    UrlValidator.stubs(:validate).with(url).returns(true)
+    disabled_url = FactoryBot.create(:url, long_url: url, active: false)
+    assert_no_difference('disabled_url.num_clicks') do
+      get "/#{disabled_url.user_slug}"
+    end
+  end
 end
