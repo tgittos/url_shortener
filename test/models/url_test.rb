@@ -53,4 +53,12 @@ class UrlTest < ActiveSupport::TestCase
     url = FactoryBot.create(:url, long_url: valid_long_url)
     assert_not_nil url.admin_slug
   end
+
+  test 'will add http:// to long url if not given' do
+    valid_url = 'google.com'
+    url = Url.new(long_url: valid_url)
+    UrlValidator.stubs(:validate).with("http://#{valid_url}").returns(true)
+    url.valid?
+    assert_equal 'http://google.com', url.long_url
+  end
 end

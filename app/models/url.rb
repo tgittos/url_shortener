@@ -4,6 +4,12 @@ class Url < ApplicationRecord
 
     scope :active, ->() { where(active: true) }
 
+    before_validation do |url|
+        if url.long_url !~ /^http:\/\//
+            url.long_url = "http://#{url.long_url}"
+        end
+    end
+
     after_create do |url|
         url.admin_slug ||= slug + RandomString.generate
         url.save
