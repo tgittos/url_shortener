@@ -7,13 +7,8 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
     @url = FactoryBot.create(:url, long_url: url)
   end
 
-  test "should get index" do
+  test "should render the shorten form" do
     get urls_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_url_url
     assert_response :success
   end
 
@@ -24,30 +19,7 @@ class UrlsControllerTest < ActionDispatch::IntegrationTest
       post urls_url, params: { url: { long_url: url } }
     end
 
-    assert_redirected_to url_url(Url.last)
-  end
-
-  test "should show url" do
-    get url_url(@url)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_url_url(@url)
-    assert_response :success
-  end
-
-  test "should update url" do
-    patch url_url(@url), params: { url: { active: false } }
-    assert_redirected_to url_url(@url)
-  end
-
-  test "should destroy url" do
-    assert_difference('Url.count', -1) do
-      delete url_url(@url)
-    end
-
-    assert_redirected_to urls_url
+    assert_redirected_to "#{root_url}a/#{Url.last.admin_slug}"
   end
 
   test 'navigate should redirect to the long url' do
