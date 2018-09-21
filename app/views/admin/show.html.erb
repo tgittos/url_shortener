@@ -2,9 +2,8 @@
 
 <%= form_with(model: @url, url: { action: "update" }, local: true) do |form| %>
   <% if @url.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(url.errors.count, "error") %> prohibited this url from being saved:</h2>
-
+    <div class="alert alert-danger" id="error_explanation">
+      <p>Uh oh! Looks like you have <%= pluralize(@url.errors.count, "error") %>!
       <ul>
       <% @url.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -13,13 +12,29 @@
     </div>
   <% end %>
 
-  Mouse clicks:
-  <%= @url.num_clicks %>
+  <div class="alert alert-primary">
+    <div class="row">
+      Your URL goes to: <%= link_to @url.long_url, @url.long_url %>
+    </div>
 
-  <%= form.label :active %>
-  <%= form.check_box :active %>
+    <div class="row">
+      <% short_url = "#{root_url}#{@url.slug}" %>
+      The shortened URL is: <a href="<%= short_url %>"><%= short_url %></a>
+    </div>
 
-  <div class="actions">
-    <%= form.submit %>
+    <div class="row">
+      <% admin_url = "#{root_url}a/#{@url.admin_slug}" %>
+      You can administrate this URL at: <a href="<%= admin_url %>"><%= admin_url %></a> (that's this URL!)
+    </div>
   </div>
+
+  <div>
+    Your link has been clicked on: <%= @url.num_clicks %> time/s
+  </div>
+
+  <div>
+    Your url is: <%= form.check_box :active %> <%= @url.active ? "active" : "inactive" %>
+  </div>
+
+  <%= form.submit class: 'update-url'%>
 <% end %>

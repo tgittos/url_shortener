@@ -2,9 +2,8 @@
 
 <%= form_with(model: @url, local: true) do |form| %>
   <% if @url.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(url.errors.count, "error") %> prohibited this url from being saved:</h2>
-
+    <div class="alert alert-danger" id="error_explanation">
+      <p>Uh oh! Looks like you have <%= pluralize(@url.errors.count, "error") %>!
       <ul>
       <% @url.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -13,10 +12,8 @@
     </div>
   <% end %>
 
-  <%= form.label :long_url %>
-  <%= form.text_field :long_url %>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="row">
+    <%= form.text_field :long_url, class: 'col-lg-7' %>
+    <%= form.submit "Shorten it!", class: 'col-lg-2 offset-md-1' %>
   </div>
 <% end %>
