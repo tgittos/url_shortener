@@ -11,10 +11,13 @@ This application requires:
 ## Database Setup
 
 To set up the database, log into your Postgres server using `psql` and run:
+
 `create role url_shortener with createdb login password 'password';`
 
 Once the role has been created, create the db and migrate it with:
+
 `rake db:create`
+
 `rake db:migrate`
 
 ## Tests
