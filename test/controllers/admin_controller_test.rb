@@ -8,12 +8,12 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show url" do
-    get url_url(@url)
+    get "#{root_url}a/#{@url.admin_slug}"
     assert_response :success
   end
 
   test "should update url" do
-    patch url_url(@url), params: { url: { active: false } }
-    assert_redirected_to url_url(@url)
+    patch "#{root_url}a/#{@url.admin_slug}", params: { url: { active: false } }
+    assert_response :success
   end
 end
